@@ -9,18 +9,53 @@ import CryptoLogos from "@/components/crypto-logos"
 import FeatureCard from "@/components/feature-card"
 import ConceptCard from "@/components/concept-card"
 import Script from "next/script"
+import CountUp from "react-countup"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, ease: [0.21, 0.45, 0.32, 0.9] }
+  transition: {
+    duration: 0.3,
+    ease: [0.645, 0.045, 0.355, 1], // Curva asimétrica optimizada para interfaces
+  }
+}
+
+const springTransition = {
+  type: "spring",
+  stiffness: 200,
+  damping: 20,
+  mass: 1,
+}
+
+const containerAnimation = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+      duration: 0.2,
+    }
+  }
+}
+
+const itemAnimation = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.2,
+      ease: [0.645, 0.045, 0.355, 1]
+    }
+  }
 }
 
 const stats = [
-  { number: "100+", text: "Conceptos explicados" },
-  { number: "50+", text: "Criptomonedas" },
-  { number: "20+", text: "Blockchains" },
-  { number: "10K+", text: "Usuarios" }
+  { number: 100, text: "Conceptos explicados" },
+  { number: 50, text: "Criptomonedas" },
+  { number: 20, text: "Blockchains" },
+  { number: 10000, text: "Usuarios" }
 ]
 
 const features = [
@@ -112,34 +147,33 @@ export default function Home() {
         })}
       </Script>
 
-      <main className="flex min-h-screen flex-col bg-gradient-to-b from-gray-900 to-black text-white">
-        <header className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8">
-          <div className="absolute inset-0 z-0 opacity-20">
+      <main className="flex min-h-screen flex-col bg-gradient-to-b from-gray-900 to-black text-white selection:bg-emerald-500/20">
+        <header className="relative overflow-hidden py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="absolute inset-0 z-0"
+          >
             <CryptoLogos />
-          </div>
+          </motion.div>
 
           <div className="container mx-auto relative z-10">
             <motion.div
-              initial="initial"
-              animate="animate"
-              variants={{
-                animate: {
-                  transition: {
-                    staggerChildren: 0.1
-                  }
-                }
-              }}
+              initial="hidden"
+              animate="show"
+              variants={containerAnimation}
               className="max-w-3xl mx-auto text-center"
             >
               <motion.div
-                variants={fadeInUp}
-                className="inline-block rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 px-4 py-1 text-sm font-medium mb-8"
+                variants={itemAnimation}
+                className="inline-block rounded-full bg-gradient-to-r from-emerald-500/90 to-cyan-500/90 px-6 py-2 text-sm font-semibold tracking-wide mb-8 shadow-lg hover:scale-105 transition-transform duration-200"
               >
                 Tu guía en el mundo cripto
               </motion.div>
               <motion.h1
-                variants={fadeInUp}
-                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
+                variants={itemAnimation}
+                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.15] tracking-tight mb-8"
               >
                 Aprende sobre{" "}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
@@ -148,8 +182,8 @@ export default function Home() {
                 de manera sencilla
               </motion.h1>
               <motion.p
-                variants={fadeInUp}
-                className="text-xl text-gray-300 mb-8"
+                variants={itemAnimation}
+                className="text-xl text-gray-300/90 mb-12 leading-relaxed max-w-2xl mx-auto"
               >
                 Descubre conceptos, tecnologías y términos del mundo cripto con nuestro asistente virtual educativo.
               </motion.p>
@@ -157,62 +191,75 @@ export default function Home() {
           </div>
         </header>
 
-        <article className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-900/50">
+        <article className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/50 backdrop-blur-sm">
           <div className="container mx-auto">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={containerAnimation}
+              className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center"
             >
               {stats.map((stat, index) => (
                 <motion.div
                   key={stat.text}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  variants={itemAnimation}
+                  className="p-4 rounded-xl hover:bg-white/5 transition-all duration-200 hover:scale-105"
                 >
                   <motion.p
-                    initial={{ scale: 0.5 }}
-                    whileInView={{ scale: 1 }}
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 20,
-                      delay: index * 0.1
-                    }}
+                    transition={springTransition}
                     className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400"
                   >
-                    {stat.number}
+                    <CountUp
+                      end={stat.number}
+                      duration={2}
+                      suffix={stat.number === 10000 ? "+" : "+"}
+                      enableScrollSpy={true}
+                      scrollSpyOnce={true}
+                    />
                   </motion.p>
-                  <p className="text-gray-400 mt-2">{stat.text}</p>
+                  <p className="text-gray-400 mt-3 text-base sm:text-lg font-medium">{stat.text}</p>
                 </motion.div>
               ))}
             </motion.div>
           </div>
         </article>
 
-        <section aria-labelledby="features-heading" className="py-20 px-4 sm:px-6 lg:px-8">
+        <section aria-labelledby="features-heading" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
           <h2 id="features-heading" className="sr-only">Características principales</h2>
           <div className="container mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-3xl mx-auto mb-16"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={containerAnimation}
+              className="text-center max-w-3xl mx-auto mb-20"
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Aprende todo sobre el mundo cripto</h2>
-              <p className="text-xl text-gray-400">
+              <motion.h2
+                variants={itemAnimation}
+                className="text-3xl md:text-4xl font-bold mb-6 tracking-tight"
+              >
+                Aprende todo sobre el mundo cripto
+              </motion.h2>
+              <motion.p
+                variants={itemAnimation}
+                className="text-xl text-gray-400/90 leading-relaxed"
+              >
                 Nuestro asistente virtual educativo te ayuda a entender los conceptos fundamentales de las criptomonedas y
                 la tecnología blockchain.
-              </p>
+              </motion.p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={containerAnimation}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 relative"
+            >
               {features.map((feature, index) => (
                 <FeatureCard
                   key={feature.title}
@@ -220,11 +267,11 @@ export default function Home() {
                   index={index}
                 />
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
-        <section aria-labelledby="concepts-heading" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/30">
+        <section aria-labelledby="concepts-heading" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gray-900/30 backdrop-blur-sm">
           <h2 id="concepts-heading" className="sr-only">Conceptos clave</h2>
           <div className="container mx-auto">
             <motion.div
@@ -232,16 +279,16 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="text-center max-w-3xl mx-auto mb-16"
+              className="text-center max-w-3xl mx-auto mb-20"
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Conceptos clave que aprenderás</h2>
-              <p className="text-xl text-gray-400">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Conceptos clave que aprenderás</h2>
+              <p className="text-xl text-gray-400/90 leading-relaxed">
                 Nuestro asistente virtual te explica de manera clara y sencilla los conceptos más importantes del
                 ecosistema cripto.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
               {concepts.map((concept, index) => (
                 <ConceptCard
                   key={concept.title}
@@ -253,57 +300,123 @@ export default function Home() {
           </div>
         </section>
 
-        <section aria-labelledby="cta-heading" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-900 to-gray-800">
+        <section aria-labelledby="cta-heading" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-900 to-gray-800">
           <h2 id="cta-heading" className="sr-only">Llamada a la acción</h2>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            whileInView="show"
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            variants={containerAnimation}
             className="container mx-auto text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Comienza tu viaje en el mundo cripto</h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <motion.div
+              variants={itemAnimation}
+              className="inline-block rounded-full bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 px-4 py-1.5 mb-8"
+            >
+              <span className="text-sm font-medium">
+                Más de 10,000 usuarios ya confían en nosotros
+              </span>
+            </motion.div>
+            <motion.h2
+              variants={itemAnimation}
+              className="text-3xl md:text-4xl font-bold mb-8 tracking-tight"
+            >
+              Comienza tu viaje en el mundo cripto
+            </motion.h2>
+            <motion.p
+              variants={itemAnimation}
+              className="text-xl text-gray-300/90 mb-12 max-w-2xl mx-auto leading-relaxed"
+            >
               Únete a miles de usuarios que ya están aprendiendo sobre criptomonedas con nuestro asistente virtual
               educativo.
-            </p>
+            </motion.p>
+            
+            {/* Social proof grid */}
+            <motion.div
+              variants={containerAnimation}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12"
+            >
+              <motion.div
+                variants={itemAnimation}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-6"
+              >
+                <p className="text-sm leading-relaxed text-gray-300">
+                  "La mejor plataforma para aprender sobre crypto que he encontrado."
+                </p>
+                <p className="mt-2 text-sm text-emerald-400 font-medium">- María G.</p>
+              </motion.div>
+              <motion.div
+                variants={itemAnimation}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-6"
+              >
+                <p className="text-sm leading-relaxed text-gray-300">
+                  "Conceptos complejos explicados de forma simple y clara."
+                </p>
+                <p className="mt-2 text-sm text-emerald-400 font-medium">- Juan R.</p>
+              </motion.div>
+              <motion.div
+                variants={itemAnimation}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-6"
+              >
+                <p className="text-sm leading-relaxed text-gray-300">
+                  "El asistente virtual resuelve todas mis dudas al instante."
+                </p>
+                <p className="mt-2 text-sm text-emerald-400 font-medium">- Carlos M.</p>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              variants={itemAnimation}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              className="inline-block"
+            >
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-semibold px-8 py-6 text-lg rounded-full shadow-lg transition-all duration-300 hover:shadow-xl"
+              >
+                Comenzar ahora
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </motion.div>
           </motion.div>
         </section>
 
-        <footer role="contentinfo" className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-950">
+        <footer role="contentinfo" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-950">
           <nav aria-label="Footer navigation" className="container mx-auto">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col md:flex-row justify-between items-center"
+              className="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0"
             >
-              <div className="flex items-center mb-6 md:mb-0">
-                <div className="flex space-x-2">
-                  <Image src="/logos/btc.svg" alt="Bitcoin" width={24} height={24} />
-                  <Image src="/logos/eth.svg" alt="Ethereum" width={24} height={24} />
-                  <Image src="/logos/sol.svg" alt="Solana" width={24} height={24} />
+              <div className="flex items-center">
+                <div className="flex space-x-3">
+                  <Image src="/logos/btc.svg" alt="Bitcoin" width={28} height={28} className="hover:scale-110 transition-transform duration-300" />
+                  <Image src="/logos/eth.svg" alt="Ethereum" width={28} height={28} className="hover:scale-110 transition-transform duration-300" />
+                  <Image src="/logos/sol.svg" alt="Solana" width={28} height={28} className="hover:scale-110 transition-transform duration-300" />
                 </div>
-                <span className="ml-3 text-xl font-bold">CryptoEdu</span>
+                <span className="ml-4 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">CryptoEdu</span>
               </div>
-              <div className="flex space-x-6">
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+              <div className="flex space-x-8">
+                <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium">
                   Inicio
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium">
                   Conceptos
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium">
                   Recursos
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium">
                   Contacto
                 </Link>
               </div>
             </motion.div>
-            <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-              <p>© {new Date().getFullYear()} CryptoEdu. Todos los derechos reservados.</p>
+            <div className="border-t border-gray-800/50 mt-12 pt-8 text-center text-gray-500">
+              <p className="text-sm">© {new Date().getFullYear()} CryptoEdu. Todos los derechos reservados.</p>
             </div>
           </nav>
         </footer>

@@ -198,7 +198,7 @@ export default function Chatbot() {
                       </linearGradient>
                     </svg>
                   </figure>
-                  <h2 className="text-xl font-semibold mb-2">
+                  <h2 className="text-xl text-gray-400 font-semibold mb-2">
                     Pregúntale cualquier cosa a nuestra IA
                   </h2>
                   <p className="text-muted-foreground mb-8">
