@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; // Importar Alert
-import Image from "next/image";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; 
 import { MessageCircle, AlertCircle, Sparkles } from "lucide-react";
 import ChatMessages, { ChatMessage } from "./components/messages";
 import { useChatbot } from "@/hooks/use-chat-bot";
@@ -226,7 +225,7 @@ export default function Chatbot() {
             input={input}
             onChange={setInput}
             onSend={handleSend}
-            disabled={isPending || rateLimitError !== null} // Bloquear el botón si hay rate limit
+            disabled={isPending || rateLimitError !== null} 
           />
 
           {isError && !rateLimitError && (

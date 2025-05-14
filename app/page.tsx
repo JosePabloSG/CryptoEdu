@@ -10,6 +10,7 @@ import FeatureCard from "@/components/feature-card"
 import ConceptCard from "@/components/concept-card"
 import Script from "next/script"
 import CountUp from "react-countup"
+import PriceTicker from '@/components/price-ticker'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -171,6 +172,7 @@ export default function Home() {
               >
                 Tu guía en el mundo cripto
               </motion.div>
+
               <motion.h1
                 variants={itemAnimation}
                 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.15] tracking-tight mb-8"
@@ -181,12 +183,21 @@ export default function Home() {
                 </span>{" "}
                 de manera sencilla
               </motion.h1>
+
               <motion.p
                 variants={itemAnimation}
                 className="text-xl text-gray-300/90 mb-12 leading-relaxed max-w-2xl mx-auto"
               >
                 Descubre conceptos, tecnologías y términos del mundo cripto con nuestro asistente virtual educativo.
               </motion.p>
+
+              {/* Agregamos el ticker de precios */}
+              <motion.div
+                variants={itemAnimation}
+                className="max-w-4xl mx-auto mb-12"
+              >
+                <PriceTicker />
+              </motion.div>
             </motion.div>
           </div>
         </header>
@@ -330,7 +341,7 @@ export default function Home() {
               Únete a miles de usuarios que ya están aprendiendo sobre criptomonedas con nuestro asistente virtual
               educativo.
             </motion.p>
-            
+
             {/* Social proof grid */}
             <motion.div
               variants={containerAnimation}
