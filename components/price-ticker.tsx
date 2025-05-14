@@ -88,28 +88,27 @@ export default function PriceTicker() {
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-col space-y-2 p-3 rounded-lg hover:bg-gray-700/30 transition-colors"
             >
-              <div className="flex items-center space-x-2">
-                <Image
-                  src={config.icon}
-                  alt={config.name}
-                  width={24}
-                  height={24}
-                  className="w-6 h-6"
-                />
-                <span className="font-medium">{config.symbol}</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Image
+                    src={config.icon}
+                    alt={config.name}
+                    width={24}
+                    height={24}
+                    className="w-6 h-6"
+                  />
+                  <span className="font-medium">{config.symbol}</span>
+                </div>
+                <div className={`flex items-center text-sm ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                  {isPositive ? <ArrowUp size={16} /> : <ArrowDown size={16} />}
+                  <span>{Math.abs(priceChange).toFixed(2)}%</span>
+                </div>
               </div>
-
               <div className="text-lg font-bold">
                 ${price.usd.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
-              </div>
-
-              <div className={`flex items-center text-sm ${isPositive ? 'text-green-400' : 'text-red-400'
-                }`}>
-                {isPositive ? <ArrowUp size={16} /> : <ArrowDown size={16} />}
-                <span>{Math.abs(priceChange).toFixed(2)}%</span>
               </div>
             </motion.div>
           );
