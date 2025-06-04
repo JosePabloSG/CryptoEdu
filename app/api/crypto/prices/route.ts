@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 
 // Cache para almacenar los precios y evitar demasiadas peticiones a la API
-let priceCache = {
+export let priceCache = {
   data: null as any,
-  lastUpdate: 0
+  lastUpdate: 0,
 };
 
 const CACHE_DURATION = 60000; // 1 minuto
 
-async function getPrices() {
+export async function getPrices() {
   const now = Date.now();
 
   // Devolver cache si está vigente
@@ -19,7 +19,7 @@ async function getPrices() {
   try {
     // Obtener los precios de las principales criptomonedas
     const response = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano&vs_currencies=usd&include_24hr_change=true'
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano&vs_currencies=usd&include_24hr_change=true',
     );
 
     if (!response.ok) {
@@ -31,7 +31,7 @@ async function getPrices() {
     // Actualizar cache
     priceCache = {
       data,
-      lastUpdate: now
+      lastUpdate: now,
     };
 
     return data;
@@ -48,7 +48,7 @@ export async function GET() {
   } catch (error) {
     return NextResponse.json(
       { error: 'Error fetching prices' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

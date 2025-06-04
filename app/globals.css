@@ -1,7 +1,27 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+
+/* Custom crypto component styles */
+.swap-button {
+  border-radius: 9999px;
+  background-color: rgba(8, 145, 178, 0.2);
+  color: #22d3ee;
+  padding: 0.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  border: 1px solid rgba(8, 145, 178, 0.4);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.swap-button:hover {
+  background-color: rgba(8, 145, 178, 0.3);
+  box-shadow: 0 10px 15px -3px rgba(8, 145, 178, 0.1),
+    0 4px 6px -2px rgba(8, 145, 178, 0.05);
+}
 
 @theme inline {
   --color-background: var(--background);
