@@ -22,7 +22,7 @@ export default function ChatHeader({ isExpanded, onDownload, onToggleExpand, onC
       <header className="flex flex-row items-center justify-between w-full">
         <div className="flex items-center gap-2">
           <Avatar className="w-12 h-12 p-1 bg-gray-800">
-            <AvatarImage src="/logos/valibot.svg" alt="" aria-hidden="true" />
+            <AvatarImage src="/Bot.svg" alt="" aria-hidden="true" />
             <AvatarFallback>IA</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
