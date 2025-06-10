@@ -25,6 +25,7 @@ import { CryptoNewsComponent } from '@/components/CryptoNews';
 import UserProfile from '@/components/user-profile';
 import { useHomepageData } from '@/hooks/use-homepage-data';
 import type { HomepageData } from '@/lib/types/homepage';
+import MarketAnalysisSection from '@/components/market-analysis-section';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -180,8 +181,7 @@ export default function Home() {
           '@context': 'https://schema.org',
           '@type': 'EducationalOrganization',
           name: footer?.brand || 'CryptoEdu',
-          description:
-            heroSection?.subtitle ||
+          description: heroSection?.subtitle ||
             'Plataforma educativa sobre criptomonedas y blockchain con asistente virtual',
           url: 'https://chatbot-template-8pdj.vercel.app',
           logo: 'https://chatbot-template-8pdj.vercel.app/logos/btc.svg',
@@ -250,6 +250,33 @@ export default function Home() {
             </motion.div>
           </div>
         </header>
+
+        {/* Crypto Tools Section - Moved to top */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900/30 backdrop-blur-sm">
+          <div className="container mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="hover:scale-[1.02] transition-transform duration-300"
+              >
+                <CryptoConverter />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="hover:scale-[1.02] transition-transform duration-300"
+              >
+                <FavoriteCryptos />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         <article className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/50 backdrop-blur-sm">
           <div className="container mx-auto">
             <motion.div
@@ -437,66 +464,8 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </section>
-        <section
-          aria-labelledby="crypto-tools-heading"
-          className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gray-900/30 backdrop-blur-sm"
-        >
-          <h2 id="crypto-tools-heading" className="sr-only">
-            Herramientas de criptomonedas
-          </h2>
-          <div className="container mx-auto">
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: '-100px' }}
-              variants={containerAnimation}
-              className="text-center max-w-3xl mx-auto mb-20"
-            >
-              <motion.div
-                variants={itemAnimation}
-                className="inline-block rounded-full bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 px-6 py-2 mb-6"
-              >
-                <span className="text-sm font-semibold tracking-wide">
-                  Precios en tiempo real
-                </span>
-              </motion.div>
-              <motion.h2
-                variants={itemAnimation}
-                className="text-3xl md:text-4xl font-bold mb-6 tracking-tight text-white"
-              >
-                {tools?.title}
-              </motion.h2>
-              <motion.p
-                variants={itemAnimation}
-                className="text-xl text-gray-300 leading-relaxed"
-              >
-                {tools?.description}
-              </motion.p>
-            </motion.div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              {' '}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="hover:scale-[1.02] transition-transform duration-300"
-              >
-                <CryptoConverter />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="hover:scale-[1.02] transition-transform duration-300"
-              >
-                <FavoriteCryptos />
-              </motion.div>
-            </div>
-          </div>
-        </section>
+
         <section className="py-16 px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -523,6 +492,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </section>
+        <MarketAnalysisSection />
         <footer role="contentinfo" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-950">
           <nav aria-label="Footer navigation" className="container mx-auto">
             <motion.div
