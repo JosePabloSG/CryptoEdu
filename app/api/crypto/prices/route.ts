@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
 
 // Cache para almacenar los precios y evitar demasiadas peticiones a la API
-export let priceCache = {
+let priceCache = {
   data: null as any,
   lastUpdate: 0,
 };
 
 const CACHE_DURATION = 60000; // 1 minuto
 
-export async function getPrices() {
+// Changed from export to regular function to avoid Next.js route export issues
+async function getPrices() {
   const now = Date.now();
 
   // Devolver cache si está vigente
