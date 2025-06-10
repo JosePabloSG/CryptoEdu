@@ -14,15 +14,25 @@ interface MarketTrend {
 export default function MarketAnalysisSection() {
   const [trends, setTrends] = useState<MarketTrend[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAnalysis = async () => {
       try {
+        setIsLoading(true);
+        setError(null);
         const response = await fetch('/api/market-sentiment');
+        if (!response.ok) {
+          throw new Error('Error al obtener el análisis de mercado');
+        }
         const data = await response.json();
+        if (!data.trends || !Array.isArray(data.trends)) {
+          throw new Error('Formato de datos inválido');
+        }
         setTrends(data.trends);
       } catch (error) {
         console.error('Error fetching market analysis:', error);
+        setError(error instanceof Error ? error.message : 'Error desconocido');
       } finally {
         setIsLoading(false);
       }
@@ -57,6 +67,14 @@ export default function MarketAnalysisSection() {
             <div className="col-span-3 flex justify-center items-center py-12">
               <Loader2 className="w-8 h-8 animate-spin text-emerald-400" />
             </div>
+          ) : error ? (
+            <div className="col-span-3 flex justify-center items-center py-12">
+              <p className="text-red-400">{error}</p>
+            </div>
+          ) : trends.length === 0 ? (
+            <div className="col-span-3 flex justify-center items-center py-12">
+              <p className="text-gray-400">No hay análisis disponible en este momento</p>
+            </div>
           ) : (
             trends.map((trend) => (
               <motion.div
@@ -67,8 +85,7 @@ export default function MarketAnalysisSection() {
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xl font-bold">{trend.symbol}/USD</span>
-                  <div className={`flex items-center ${trend.direction === 'up' ? 'text-emerald-400' : 'text-red-400'
-                    }`}>
+                  <div className={`flex items-center ${trend.direction === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
                     {trend.direction === 'up' ? (
                       <TrendingUp className="w-5 h-5" />
                     ) : (

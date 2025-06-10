@@ -492,7 +492,6 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </section>
-        <MarketAnalysisSection />
         <footer role="contentinfo" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-950">
           <nav aria-label="Footer navigation" className="container mx-auto">
             <motion.div
