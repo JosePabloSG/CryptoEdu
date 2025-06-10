@@ -22,11 +22,11 @@ export default function ChatHeader({ isExpanded, onDownload, onToggleExpand, onC
       <header className="flex flex-row items-center justify-between w-full">
         <div className="flex items-center gap-2">
           <Avatar className="w-12 h-12 p-1 bg-gray-800">
-            <AvatarImage src="/logos/valibot.svg" alt="" aria-hidden="true" />
+            <AvatarImage src="/Bot.svg" alt="" aria-hidden="true" />
             <AvatarFallback>IA</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <DialogTitle className="pt-2 text-white">Chat bot</DialogTitle>
+            <DialogTitle className="pt-2 text-white">BitMentor AI</DialogTitle>
             <div className="flex items-center gap-1.5 text-xs text-gray-400">
               <div className="w-2 h-2 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400"></div>
               <span>Activa</span>
