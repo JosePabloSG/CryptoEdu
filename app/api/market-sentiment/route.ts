@@ -1,4 +1,3 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -10,7 +9,7 @@ async function getCurrentPrices() {
   return await response.json();
 }
 
-export async function GET(req: VercelRequest, res: VercelResponse) {
+export async function GET(request: Request) {
   try {
     const prices = await getCurrentPrices();
 
@@ -51,9 +50,12 @@ export async function GET(req: VercelRequest, res: VercelResponse) {
     return Response.json({ trends: analysis.trends });
   } catch (error) {
     console.error('Error:', error);
-    return Response.json(
-      { error: "Error analyzing market sentiment" },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: "Error analyzing market sentiment" }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }
