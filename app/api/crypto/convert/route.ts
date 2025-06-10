@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { priceCache, getPrices } from '../prices/route';
+import { getPrices } from '@/lib/crypto-utils';
 
 // This endpoint handles conversion between cryptocurrencies and USD
 export async function GET(request: Request) {
