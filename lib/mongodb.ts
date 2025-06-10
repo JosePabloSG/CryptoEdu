@@ -2,9 +2,10 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 import { DB_NAME } from './db-schema';
 
 // Use environment variable for connection string (hidden in .env.local)
-const uri =
-  process.env.MONGODB_URI ||
-  'mongodb+srv://marcortesstiven:9Y1OEBnibgMHBNzz@cluster0.21bg2lq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = process.env.MONGODB_URI
+if (!uri) {
+  throw new Error('Please define MONGODB_URI in your environment variables')
+}
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {

@@ -1,15 +1,16 @@
 import { MongoClient } from 'mongodb';
 import { DB_NAME, COLLECTIONS } from '@/lib/db-schema';
 
-const uri =
-  process.env.MONGODB_URI ||
-  'mongodb+srv://marcortesstiven:9Y1OEBnibgMHBNzz@cluster0.21bg2lq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = process.env.MONGODB_URI
+if (!uri) {
+  throw new Error('Please define MONGODB_URI in your environment variables')
+}
 
 /**
  * Initialize MongoDB collections and indexes
  */
 async function initializeDatabase() {
-  const client = new MongoClient(uri);
+  const client = new MongoClient(uri as string);
 
   try {
     await client.connect();

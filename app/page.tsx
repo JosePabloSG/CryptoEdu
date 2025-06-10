@@ -23,6 +23,8 @@ import CryptoConverter from '@/components/crypto-converter';
 import FavoriteCryptos from '@/components/favorite-cryptos';
 import { CryptoNewsComponent } from '@/components/CryptoNews';
 import UserProfile from '@/components/user-profile';
+import { useHomepageData } from '@/hooks/use-homepage-data';
+import type { HomepageData } from '@/lib/types/homepage';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -64,116 +66,122 @@ const itemAnimation = {
   },
 };
 
-const stats = [
-  { number: 100, text: 'Conceptos explicados' },
-  { number: 50, text: 'Criptomonedas' },
-  { number: 20, text: 'Blockchains' },
-  { number: 10000, text: 'Usuarios' },
-];
-
-const features = [
-  {
-    icon: <BookOpen className="h-10 w-10 text-emerald-500" />,
-    title: 'Conceptos básicos',
-    description:
-      'Aprende los fundamentos de las criptomonedas, blockchain y los términos más importantes del ecosistema.',
-  },
-  {
-    icon: <Wallet className="h-10 w-10 text-cyan-500" />,
-    title: 'Wallets y seguridad',
-    description:
-      'Descubre los diferentes tipos de wallets, cómo funcionan y las mejores prácticas de seguridad.',
-  },
-  {
-    icon: <ArrowUpDown className="h-10 w-10 text-emerald-500" />,
-    title: 'Exchanges y trading',
-    description:
-      'Entiende cómo funcionan los exchanges, tipos de órdenes y conceptos básicos de trading.',
-  },
-  {
-    icon: <Layers className="h-10 w-10 text-cyan-500" />,
-    title: 'Redes blockchain',
-    description:
-      'Explora las diferentes redes blockchain, sus características y casos de uso específicos.',
-  },
-  {
-    icon: (
-      <Image
-        src="/logos/btc.svg"
-        alt="Bitcoin"
-        width={40}
-        height={40}
-        className="text-emerald-500"
-      />
-    ),
-    title: 'Principales criptomonedas',
-    description:
-      'Conoce en detalle Bitcoin, Ethereum, Solana y otras criptomonedas importantes del mercado.',
-  },
-  {
-    icon: <Lightbulb className="h-10 w-10 text-cyan-500" />,
-    title: 'Tecnologías emergentes',
-    description:
-      'Mantente al día con DeFi, NFTs, Web3 y otras tecnologías emergentes en el espacio cripto.',
-  },
-];
-
-const concepts = [
-  {
-    title: '¿Qué es un Exchange?',
-    description:
-      'Un exchange de criptomonedas es una plataforma que permite a los usuarios comprar, vender e intercambiar criptomonedas por otras monedas digitales o dinero fiat. Existen exchanges centralizados (CEX) como Binance o Coinbase, y descentralizados (DEX) como Uniswap.',
-    icon: <ArrowUpDown className="h-6 w-6 text-emerald-500" />,
-  },
-  {
-    title: '¿Qué es un Wallet?',
-    description:
-      'Un wallet o monedero de criptomonedas es una herramienta que te permite almacenar, enviar y recibir criptomonedas. Contiene tus claves privadas, que son necesarias para acceder y gestionar tus activos digitales en la blockchain.',
-    icon: <Wallet className="h-6 w-6 text-cyan-500" />,
-  },
-  {
-    title: 'Tipos de Wallets',
-    description:
-      'Existen varios tipos de wallets: Hot wallets (conectados a internet) como wallets de software y exchanges; Cold wallets (sin conexión a internet) como hardware wallets y paper wallets; y custodial wallets (gestionados por terceros) vs non-custodial (control total del usuario).',
-    icon: <Wallet className="h-6 w-6 text-emerald-500" />,
-  },
-  {
-    title: 'Redes Blockchain',
-    description:
-      'Las redes blockchain son sistemas distribuidos que mantienen un registro inmutable de transacciones. Cada blockchain tiene características únicas: Bitcoin se centra en ser dinero digital, Ethereum permite contratos inteligentes, Solana ofrece alta velocidad, y existen muchas otras con diferentes enfoques y tecnologías.',
-    icon: <Layers className="h-6 w-6 text-cyan-500" />,
-  },
-  {
-    title: 'DeFi (Finanzas Descentralizadas)',
-    description:
-      'DeFi se refiere a aplicaciones financieras construidas sobre redes blockchain que eliminan intermediarios tradicionales. Incluye préstamos, intercambios descentralizados, staking, yield farming y otros servicios financieros que operan de manera transparente y sin permisos.',
-    icon: <BarChart3 className="h-6 w-6 text-emerald-500" />,
-  },
-  {
-    title: 'NFTs (Tokens No Fungibles)',
-    description:
-      'Los NFTs son activos digitales únicos que representan la propiedad de un item específico. A diferencia de las criptomonedas como Bitcoin, cada NFT tiene un valor único y no puede ser intercambiado de manera equivalente. Se utilizan para arte digital, coleccionables, gaming y más.',
-    icon: (
-      <Image
-        src="/logos/eth.svg"
-        alt="Ethereum"
-        width={24}
-        height={24}
-        className="text-cyan-500"
-      />
-    ),
-  },
-];
-
 export default function Home() {
+  const { data: homepageData, isLoading, error } = useHomepageData();
+
+  // Icon mapping functions
+  const getFeatureIcon = (title: string) => {
+    switch (title) {
+      case 'Conceptos básicos':
+        return <BookOpen className="h-10 w-10 text-emerald-500" />;
+      case 'Wallets y seguridad':
+        return <Wallet className="h-10 w-10 text-cyan-500" />;
+      case 'Exchanges y trading':
+        return <ArrowUpDown className="h-10 w-10 text-emerald-500" />;
+      case 'Redes blockchain':
+        return <Layers className="h-10 w-10 text-cyan-500" />;
+      case 'Principales criptomonedas':
+        return (
+          <Image
+            src="/logos/btc.svg"
+            alt="Bitcoin"
+            width={40}
+            height={40}
+            className="text-emerald-500"
+          />
+        );
+      case 'Tecnologías emergentes':
+        return <Lightbulb className="h-10 w-10 text-cyan-500" />;
+      default:
+        return <Lightbulb className="h-10 w-10 text-emerald-500" />;
+    }
+  };
+
+  const getConceptIcon = (title: string) => {
+    switch (title) {
+      case '¿Qué es un Exchange?':
+        return <ArrowUpDown className="h-6 w-6 text-emerald-500" />;
+      case '¿Qué es un Wallet?':
+      case 'Tipos de Wallets':
+        return <Wallet className="h-6 w-6 text-emerald-500" />;
+      case 'Redes Blockchain':
+        return <Layers className="h-6 w-6 text-cyan-500" />;
+      case 'DeFi (Finanzas Descentralizadas)':
+        return <BarChart3 className="h-6 w-6 text-emerald-500" />;
+      case 'NFTs (Tokens No Fungibles)':
+        return (
+          <Image
+            src="/logos/eth.svg"
+            alt="Ethereum"
+            width={24}
+            height={24}
+            className="text-cyan-500"
+          />
+        );
+      default:
+        return <Lightbulb className="h-6 w-6 text-emerald-500" />;
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <main className="flex min-h-screen flex-col bg-gradient-to-b from-gray-900 to-black text-white selection:bg-emerald-500/20">
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-emerald-500"></div>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="flex min-h-screen flex-col bg-gradient-to-b from-gray-900 to-black text-white selection:bg-emerald-500/20">
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-red-500 mb-4">Error</h1>
+            <p className="text-gray-400">
+              No se pudo cargar la información. Por favor, intenta de nuevo más
+              tarde.
+            </p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const {
+    heroSection,
+    stats,
+    features,
+    concepts,
+    testimonials,
+    tools,
+    newsSection,
+    footer,
+  } = homepageData || ({} as HomepageData);
+
+  // Add icons to features and concepts
+  const featuresWithIcons =
+    features?.map((feature) => ({
+      ...feature,
+      icon: getFeatureIcon(feature.title),
+    })) || [];
+
+  const conceptsWithIcons =
+    concepts?.map((concept) => ({
+      ...concept,
+      icon: getConceptIcon(concept.title),
+    })) || [];
+
   return (
     <>
       <Script id="json-ld" type="application/ld+json">
         {JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'EducationalOrganization',
-          name: 'CryptoEdu',
+          name: footer?.brand || 'CryptoEdu',
           description:
+            heroSection?.subtitle ||
             'Plataforma educativa sobre criptomonedas y blockchain con asistente virtual',
           url: 'https://chatbot-template-8pdj.vercel.app',
           logo: 'https://chatbot-template-8pdj.vercel.app/logos/btc.svg',
@@ -215,26 +223,21 @@ export default function Home() {
                 variants={itemAnimation}
                 className="inline-block rounded-full bg-gradient-to-r from-emerald-500/90 to-cyan-500/90 px-6 py-2 text-sm font-semibold tracking-wide mb-8 shadow-lg hover:scale-105 transition-transform duration-200"
               >
-                Tu guía en el mundo cripto
+                {heroSection?.badge}
               </motion.div>
 
               <motion.h1
                 variants={itemAnimation}
                 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.15] tracking-tight mb-8"
               >
-                Aprende sobre{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
-                  criptomonedas
-                </span>{' '}
-                de manera sencilla
+                {heroSection?.title}
               </motion.h1>
 
               <motion.p
                 variants={itemAnimation}
                 className="text-xl text-gray-300/90 mb-12 leading-relaxed max-w-2xl mx-auto"
               >
-                Descubre conceptos, tecnologías y términos del mundo cripto con
-                nuestro asistente virtual educativo.
+                {heroSection?.subtitle}
               </motion.p>
 
               {/* Agregamos el ticker de precios */}
@@ -256,7 +259,7 @@ export default function Home() {
               variants={containerAnimation}
               className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center"
             >
-              {stats.map((stat, index) => (
+              {stats?.map((stat, index) => (
                 <motion.div
                   key={stat.text}
                   variants={itemAnimation}
@@ -323,7 +326,7 @@ export default function Home() {
               variants={containerAnimation}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 relative"
             >
-              {features.map((feature, index) => (
+              {featuresWithIcons.map((feature, index) => (
                 <FeatureCard key={feature.title} {...feature} index={index} />
               ))}
             </motion.div>
@@ -354,7 +357,7 @@ export default function Home() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-              {concepts.map((concept, index) => (
+              {conceptsWithIcons.map((concept, index) => (
                 <ConceptCard key={concept.title} {...concept} index={index} />
               ))}
             </div>
@@ -401,40 +404,20 @@ export default function Home() {
               variants={containerAnimation}
               className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12"
             >
-              <motion.div
-                variants={itemAnimation}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6"
-              >
-                <p className="text-sm leading-relaxed text-gray-300">
-                  "La mejor plataforma para aprender sobre crypto que he
-                  encontrado."
-                </p>
-                <p className="mt-2 text-sm text-emerald-400 font-medium">
-                  - María G.
-                </p>
-              </motion.div>
-              <motion.div
-                variants={itemAnimation}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6"
-              >
-                <p className="text-sm leading-relaxed text-gray-300">
-                  "Conceptos complejos explicados de forma simple y clara."
-                </p>
-                <p className="mt-2 text-sm text-emerald-400 font-medium">
-                  - Juan R.
-                </p>
-              </motion.div>
-              <motion.div
-                variants={itemAnimation}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6"
-              >
-                <p className="text-sm leading-relaxed text-gray-300">
-                  "El asistente virtual resuelve todas mis dudas al instante."
-                </p>
-                <p className="mt-2 text-sm text-emerald-400 font-medium">
-                  - Carlos M.
-                </p>
-              </motion.div>
+              {testimonials?.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.name}
+                  variants={itemAnimation}
+                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6"
+                >
+                  <p className="text-sm leading-relaxed text-gray-300">
+                    "{testimonial.comment}"
+                  </p>
+                  <p className="mt-2 text-sm text-emerald-400 font-medium">
+                    - {testimonial.name}
+                  </p>
+                </motion.div>
+              ))}
             </motion.div>
 
             <motion.div
@@ -453,7 +436,7 @@ export default function Home() {
               </Button>
             </motion.div>
           </motion.div>
-        </section>{' '}
+        </section>
         <section
           aria-labelledby="crypto-tools-heading"
           className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gray-900/30 backdrop-blur-sm"
@@ -481,14 +464,13 @@ export default function Home() {
                 variants={itemAnimation}
                 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight text-white"
               >
-                Herramientas de criptomonedas
+                {tools?.title}
               </motion.h2>
               <motion.p
                 variants={itemAnimation}
                 className="text-xl text-gray-300 leading-relaxed"
               >
-                Utiliza nuestras herramientas para convertir entre criptomonedas
-                y seguir tus favoritas en tiempo real.
+                {tools?.description}
               </motion.p>
             </motion.div>
 
@@ -527,13 +509,13 @@ export default function Home() {
                 variants={itemAnimation}
                 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
               >
-                Últimas Noticias
+                {newsSection?.title}
               </motion.h2>
               <motion.p
                 variants={itemAnimation}
                 className="text-lg text-gray-400"
               >
-                Mantente informado sobre las últimas novedades del mundo cripto
+                {newsSection?.description}
               </motion.p>
             </div>
             <motion.div variants={itemAnimation}>
@@ -541,10 +523,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </section>
-        <footer
-          role="contentinfo"
-          className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-950"
-        >
+        <footer role="contentinfo" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-950">
           <nav aria-label="Footer navigation" className="container mx-auto">
             <motion.div
               initial={{ opacity: 0 }}
@@ -578,41 +557,23 @@ export default function Home() {
                   />
                 </div>
                 <span className="ml-4 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
-                  CryptoEdu
+                  {footer?.brand}
                 </span>
               </div>
               <div className="flex space-x-8">
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium"
-                >
-                  Inicio
-                </Link>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium"
-                >
-                  Conceptos
-                </Link>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium"
-                >
-                  Recursos
-                </Link>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium"
-                >
-                  Contacto
-                </Link>
+                {footer?.links?.map((link) => (
+                  <Link
+                    key={link}
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-base font-medium"
+                  >
+                    {link}
+                  </Link>
+                ))}
               </div>
             </motion.div>
             <div className="border-t border-gray-800/50 mt-12 pt-8 text-center text-gray-500">
-              <p className="text-sm">
-                © {new Date().getFullYear()} CryptoEdu. Todos los derechos
-                reservados.
-              </p>
+              <p className="text-sm">{footer?.copyright}</p>
             </div>
           </nav>
         </footer>
