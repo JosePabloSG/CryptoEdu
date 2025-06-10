@@ -22,6 +22,7 @@ import PriceTicker from '@/components/price-ticker';
 import CryptoConverter from '@/components/crypto-converter';
 import FavoriteCryptos from '@/components/favorite-cryptos';
 import { CryptoNewsComponent } from '@/components/CryptoNews';
+import UserProfile from '@/components/user-profile';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -197,9 +198,13 @@ export default function Home() {
             className="absolute inset-0 z-0"
           >
             <CryptoLogos />
-          </motion.div>
-
+          </motion.div>{' '}
           <div className="container mx-auto relative z-10">
+            {/* User Profile Section */}
+            <div className="absolute top-0 right-0">
+              <UserProfile />
+            </div>
+
             <motion.div
               initial="hidden"
               animate="show"
