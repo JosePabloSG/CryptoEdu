@@ -21,6 +21,7 @@ import CountUp from 'react-countup';
 import PriceTicker from '@/components/price-ticker';
 import CryptoConverter from '@/components/crypto-converter';
 import FavoriteCryptos from '@/components/favorite-cryptos';
+import { CryptoNewsComponent } from '@/components/CryptoNews';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -508,6 +509,32 @@ export default function Home() {
               </motion.div>
             </div>
           </div>
+        </section>
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={containerAnimation}
+            className="mx-auto max-w-7xl"
+          >
+            <div className="text-center mb-12">
+              <motion.h2
+                variants={itemAnimation}
+                className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
+              >
+                Últimas Noticias
+              </motion.h2>
+              <motion.p
+                variants={itemAnimation}
+                className="text-lg text-gray-400"
+              >
+                Mantente informado sobre las últimas novedades del mundo cripto
+              </motion.p>
+            </div>
+            <motion.div variants={itemAnimation}>
+              <CryptoNewsComponent />
+            </motion.div>
+          </motion.div>
         </section>
         <footer
           role="contentinfo"
